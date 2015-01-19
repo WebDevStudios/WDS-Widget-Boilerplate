@@ -31,7 +31,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 *
 	 * @var string
 	 */
-	protected $widget_name = '(Client) Widget Boilerplate Title';
+	protected $widget_name = '(Client Name) Widget Boilerplate Title';
 
 
 	/**
