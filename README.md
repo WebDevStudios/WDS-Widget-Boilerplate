@@ -1,3 +1,3 @@
 # WDS-Widget-Boilerplate
 
-A boilerplate for building both simple and complex widgets.
+A boilerplate for building widgets in wd_s.
