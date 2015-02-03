@@ -26,8 +26,9 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 */
 	protected $widget_slug = 'wds-widget-boilerplate-slug';
 
+
 	/**
-	 * Widget description displayed in Widgets dashboard.
+	 * Widget name displayed in Widgets dashboard.
 	 * Set in __construct since __() shouldn't take a variable.
 	 *
 	 * @var string
