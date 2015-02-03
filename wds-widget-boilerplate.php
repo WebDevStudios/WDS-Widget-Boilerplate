@@ -43,24 +43,16 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 
 
 	/**
-	 * Textdomain for internationalization (i18n).
-	 *
-	 * @var string
-	 */
-	protected $widget_i18n = 'wds-some-textdomain';
-
-
-	/**
 	 * Contruct widget.
 	 */
 	public function __construct() {
 
 		parent::__construct(
 			$this->widget_slug,
-			__( $this->widget_name, $this->widget_i18n ),
+			__( $this->widget_name, 'wds-some-textdomain' ),
 			array(
 				'classname'   => $this->widget_slug,
-				'description' => __( $this->widget_desc, $this->widget_i18n )
+				'description' => __( $this->widget_desc, 'wds-some-textdomain' )
 			)
 		);
 
@@ -165,12 +157,12 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 
 		?>
 
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', $this->widget_i18n ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wds-some-textdomain' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_html( $title ); ?>" placeholder="optional" /></p>
 
-		<p><label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:', $this->widget_i18n ); ?></label>
+		<p><label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:', 'wds-some-textdomain' ); ?></label>
 		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $text ); ?></textarea></p>
-		<p class="description"><?php _e( 'Basic HTML tags are allowed.', $this->widget_i18n ); ?></p>
+		<p class="description"><?php _e( 'Basic HTML tags are allowed.', 'wds-some-textdomain' ); ?></p>
 
 		<?php
 	}
