@@ -27,19 +27,12 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	protected $widget_slug = 'wds-widget-boilerplate-slug';
 
 	/**
-	 * Widget name displayed in Widgets dashboard.
-	 *
-	 * @var string
-	 */
-	protected $widget_name = '(Client Name) Widget Boilerplate Title';
-
-
-	/**
 	 * Widget description displayed in Widgets dashboard.
+	 * Set in __construct since __() shouldn't take a variable.
 	 *
 	 * @var string
 	 */
-	protected $widget_desc = 'A widget boilerplate description.';
+	protected $widget_name = '';
 
 
 	/**
@@ -47,12 +40,14 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 */
 	public function __construct() {
 
+		$this->widget_name = __( '(Client Name) Widget Boilerplate Title', 'wds-some-textdomain' );
+
 		parent::__construct(
 			$this->widget_slug,
-			__( $this->widget_name, 'wds-some-textdomain' ),
+			$this->widget_name,
 			array(
 				'classname'   => $this->widget_slug,
-				'description' => __( $this->widget_desc, 'wds-some-textdomain' )
+				'description' => __( 'A widget boilerplate description.', 'wds-some-textdomain' ),
 			)
 		);
 
@@ -146,7 +141,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 		// If there are no settings, set up defaults
 		$instance = wp_parse_args( (array) $instance,
 			array(
-				'title' => 'Widget Boilerplate Title',
+				'title' => $this->widget_name,
 				'text'  => '',
 			)
 		);
@@ -172,7 +167,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 /**
  * Register this widget with WordPress.
  */
-function WDS_Widget_Boilerplate() {
+function register_wds_widget_boilerplate() {
 	register_widget( 'WDS_Widget_Boilerplate' );
 }
-add_action( 'widgets_init', 'WDS_Widget_Boilerplate' );
+add_action( 'widgets_init', 'register_wds_widget_boilerplate' );
