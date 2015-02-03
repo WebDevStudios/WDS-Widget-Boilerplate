@@ -37,11 +37,21 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 
 
 	/**
+	 * Default widget title displayed in Widgets dashboard.
+	 * Set in __construct since __() shouldn't take a variable.
+	 *
+	 * @var string
+	 */
+	protected $default_widget_title = '';
+
+
+	/**
 	 * Contruct widget.
 	 */
 	public function __construct() {
 
-		$this->widget_name = __( '(Client Name) Widget Boilerplate Title', 'wds-some-textdomain' );
+		$this->widget_name          = __( '(Client Name) Widget Boilerplate Title', 'wds-some-textdomain' );
+		$this->default_widget_title = __( 'Widget Boilerplate Title', 'wds-some-textdomain' );
 
 		parent::__construct(
 			$this->widget_slug,
@@ -142,7 +152,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 		// If there are no settings, set up defaults
 		$instance = wp_parse_args( (array) $instance,
 			array(
-				'title' => $this->widget_name,
+				'title' => $this->default_widget_title,
 				'text'  => '',
 			)
 		);
