@@ -46,6 +46,14 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 
 
 	/**
+	 * Shortcode name for this widget
+	 *
+	 * @var string
+	 */
+	protected $shortcode = 'wds_widget';
+
+
+	/**
 	 * Contruct widget.
 	 */
 	public function __construct() {
@@ -65,6 +73,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 		add_action( 'save_post',    array( $this, 'flush_widget_cache' ) );
 		add_action( 'deleted_post', array( $this, 'flush_widget_cache' ) );
 		add_action( 'switch_theme', array( $this, 'flush_widget_cache' ) );
+		add_shortcode( $this->shortcode, array( __CLASS__, 'get_widget' ) );
 	}
 
 
@@ -87,29 +96,54 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 */
 	public function widget( $args, $instance ) {
 
-		// Set up variables
-		$before_widget = $args['before_widget'];
-		$after_widget  = $args['after_widget'];
-		$before_title  = $args['before_title'];
-		$after_title   = $args['after_title'];
-		$title         = $instance['title'];
-		$text          = $instance['text'];
+		echo self::get_widget( array(
+			'before_widget' = $args['before_widget'],
+			'after_widget'  = $args['after_widget'],
+			'before_title'  = $args['before_title'],
+			'after_title'   = $args['after_title'],
+			'title'         = $instance['title'],
+			'text'          = $instance['text'],
+		) );
+
+	}
+
+
+	/**
+	 * Return the widget/shortcode output
+	 *
+	 * @param  array  $atts Array of widget/shortcode attributes/args
+	 * @return string       Widget output
+	 */
+	public static function get_widget( $atts ) {
+		$widget = '';
+
+		// Set up default values for attributes
+		$atts = shortcode_atts(
+			array(
+				// Ensure variables
+				'before_widget' => '';
+				'after_widget'  => '';
+				'before_title'  => '';
+				'after_title'   => '';
+				'title'         => '';
+				'text'          => '';
+			),
+			(array) $atts,
+			$this->shortcode
+		);
 
 		// Before widget hook
-		echo $before_widget;
+		$widget .= $atts['before_widget'];
 
 		// Title
-		echo ( $title ) ? $before_title . esc_html( $title ) . $after_title : '';
+		$widget .= ( $atts['title'] ) ? $atts['before_title'] . esc_html( $atts['title'] ) . $atts['after_title'] : '';
 
-		?>
-
-		<p><?php echo wp_kses_post( $text ); ?></p>
-
-		<?php
+		$widget .= wpautop( wp_kses_post( $atts['text'] ) );
 
 		// After widget hook
-		echo $after_widget;
+		$widget .= $atts['after_widget'];
 
+		return $widget;
 	}
 
 
@@ -157,17 +191,13 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 			)
 		);
 
-		// Set up variables
-		$title = $instance['title'];
-		$text  = $instance['text'];
-
 		?>
 
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wds-some-textdomain' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_html( $title ); ?>" placeholder="optional" /></p>
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_html( $instance['title'] ); ?>" placeholder="optional" /></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:', 'wds-some-textdomain' ); ?></label>
-		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $text ); ?></textarea></p>
+		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $instance['text'] ); ?></textarea></p>
 		<p class="description"><?php _e( 'Basic HTML tags are allowed.', 'wds-some-textdomain' ); ?></p>
 
 		<?php
