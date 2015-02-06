@@ -97,12 +97,12 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		echo self::get_widget( array(
-			'before_widget' = $args['before_widget'],
-			'after_widget'  = $args['after_widget'],
-			'before_title'  = $args['before_title'],
-			'after_title'   = $args['after_title'],
-			'title'         = $instance['title'],
-			'text'          = $instance['text'],
+			'before_widget' => $args['before_widget'],
+			'after_widget'  => $args['after_widget'],
+			'before_title'  => $args['before_title'],
+			'after_title'   => $args['after_title'],
+			'title'         => $instance['title'],
+			'text'          => $instance['text'],
 		) );
 
 	}
@@ -121,12 +121,12 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 		$atts = shortcode_atts(
 			array(
 				// Ensure variables
-				'before_widget' => '';
-				'after_widget'  => '';
-				'before_title'  => '';
-				'after_title'   => '';
-				'title'         => '';
-				'text'          => '';
+				'before_widget' => '',
+				'after_widget'  => '',
+				'before_title'  => '',
+				'after_title'   => '',
+				'title'         => '',
+				'text'          => '',
 			),
 			(array) $atts,
 			$this->shortcode
