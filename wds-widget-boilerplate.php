@@ -58,15 +58,15 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 */
 	public function __construct() {
 
-		$this->widget_name          = __( '(Client Name) Widget Boilerplate Title', 'wds-some-textdomain' );
-		$this->default_widget_title = __( 'Widget Boilerplate Title', 'wds-some-textdomain' );
+		$this->widget_name          = esc_html__( '(Client Name) Widget Boilerplate Title', 'wds-some-textdomain' );
+		$this->default_widget_title = esc_html__( 'Widget Boilerplate Title', 'wds-some-textdomain' );
 
 		parent::__construct(
 			$this->widget_slug,
 			$this->widget_name,
 			array(
 				'classname'   => $this->widget_slug,
-				'description' => __( 'A widget boilerplate description.', 'wds-some-textdomain' ),
+				'description' => esc_html__( 'A widget boilerplate description.', 'wds-some-textdomain' ),
 			)
 		);
 
@@ -193,12 +193,12 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 
 		?>
 
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'wds-some-textdomain' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_html( $instance['title'] ); ?>" placeholder="optional" /></p>
+		<p><label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'wds-some-textdomain' ); ?></label>
+		<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_html( $instance['title'] ); ?>" placeholder="optional" /></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Text:', 'wds-some-textdomain' ); ?></label>
-		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>"><?php echo esc_textarea( $instance['text'] ); ?></textarea></p>
-		<p class="description"><?php _e( 'Basic HTML tags are allowed.', 'wds-some-textdomain' ); ?></p>
+		<textarea class="widefat" rows="16" cols="20" id="<?php echo esc_attr( $this->get_field_id( 'text' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'text' ) ); ?>"><?php echo esc_textarea( $instance['text'] ); ?></textarea></p>
+		<p class="description"><?php esc_html_e( 'Basic HTML tags are allowed.', 'wds-some-textdomain' ); ?></p>
 
 		<?php
 	}
