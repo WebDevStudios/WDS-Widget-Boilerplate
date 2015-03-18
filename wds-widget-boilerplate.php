@@ -50,7 +50,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 *
 	 * @var string
 	 */
-	protected $shortcode = 'wds_widget';
+	protected static $shortcode = 'wds_widget';
 
 
 	/**
@@ -73,7 +73,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 		add_action( 'save_post',    array( $this, 'flush_widget_cache' ) );
 		add_action( 'deleted_post', array( $this, 'flush_widget_cache' ) );
 		add_action( 'switch_theme', array( $this, 'flush_widget_cache' ) );
-		add_shortcode( $this->shortcode, array( __CLASS__, 'get_widget' ) );
+		add_shortcode( self::shortcode, array( __CLASS__, 'get_widget' ) );
 	}
 
 
@@ -129,7 +129,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 				'text'          => '',
 			),
 			(array) $atts,
-			$this->shortcode
+			self::shortcode
 		);
 
 		// Before widget hook
