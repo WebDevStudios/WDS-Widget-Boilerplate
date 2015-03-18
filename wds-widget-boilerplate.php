@@ -73,7 +73,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 		add_action( 'save_post',    array( $this, 'flush_widget_cache' ) );
 		add_action( 'deleted_post', array( $this, 'flush_widget_cache' ) );
 		add_action( 'switch_theme', array( $this, 'flush_widget_cache' ) );
-		add_shortcode( self::shortcode, array( __CLASS__, 'get_widget' ) );
+		add_shortcode( self::$shortcode, array( __CLASS__, 'get_widget' ) );
 	}
 
 
@@ -129,7 +129,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 				'text'          => '',
 			),
 			(array) $atts,
-			self::shortcode
+			self::$shortcode
 		);
 
 		// Before widget hook
