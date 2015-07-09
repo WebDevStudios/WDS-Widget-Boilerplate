@@ -84,7 +84,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 	 * delete_transient( 'some-transient-generated-by-this-widget' );
 	 */
 	public function flush_widget_cache() {
-		wp_cache_delete( $this->widget_slug, 'widget' );
+		wp_cache_delete( $this->id, 'widget' );
 	}
 
 
@@ -103,6 +103,7 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 			'after_title'   => $args['after_title'],
 			'title'         => $instance['title'],
 			'text'          => $instance['text'],
+			'cache_id'      => $this->id, // whatever the widget id is
 		) );
 
 	}
@@ -127,21 +128,45 @@ class WDS_Widget_Boilerplate extends WP_Widget {
 				'after_title'   => '',
 				'title'         => '',
 				'text'          => '',
+				'cache_id'      => '',
+				'flush_cache'   => isset( $_GET['delete-trans'] ), // Check for cache-buster
 			),
 			(array) $atts,
 			self::$shortcode
 		);
 
-		// Before widget hook
-		$widget .= $atts['before_widget'];
+		/*
+		 * If cache_id is not passed, we're not using the widget (but the shortcode),
+		 * so generate a hash cache id from the shortcode arguments
+		 */
+		if ( empty( $atts['cache_id'] ) ) {
+			$atts['cache_id'] = md5( serialize( $atts ) );
+		}
 
-		// Title
-		$widget .= ( $atts['title'] ) ? $atts['before_title'] . esc_html( $atts['title'] ) . $atts['after_title'] : '';
+		// Get from cache unless being requested not to
+		$widget = ! $atts['flush_cache']
+			? wp_cache_get( $atts['cache_id'], 'widget' )
+			: '';
 
-		$widget .= wpautop( wp_kses_post( $atts['text'] ) );
+		// If $widget is empty, rebuild our cache
+		if ( empty( $widget ) ) {
 
-		// After widget hook
-		$widget .= $atts['after_widget'];
+			$widget = '';
+
+			// Before widget hook
+			$widget .= $atts['before_widget'];
+
+			// Title
+			$widget .= ( $atts['title'] ) ? $atts['before_title'] . esc_html( $atts['title'] ) . $atts['after_title'] : '';
+
+			$widget .= wpautop( wp_kses_post( $atts['text'] ) );
+
+			// After widget hook
+			$widget .= $atts['after_widget'];
+
+			wp_cache_set( $atts['cache_id'], $widget, 'widget', WEEK_IN_SECONDS );
+
+		}
 
 		return $widget;
 	}
